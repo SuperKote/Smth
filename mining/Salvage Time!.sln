@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clicker", "Salvage Time!\Clicker.csproj", "{3C491C39-D686-451C-95F8-35C91C3BBBDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointsGrabber", "PointsGrabber\PointsGrabber.csproj", "{F45A866C-E0BB-4189-8216-9DC5ADD05413}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gauss", "Gauss\Gauss.csproj", "{1F625987-1314-4F08-AC75-5045D002A2C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenMaker", "ScreenMaker\ScreenMaker.csproj", "{527E86DA-AFAA-4633-9DF9-F3901E5F338C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C491C39-D686-451C-95F8-35C91C3BBBDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C491C39-D686-451C-95F8-35C91C3BBBDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C491C39-D686-451C-95F8-35C91C3BBBDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C491C39-D686-451C-95F8-35C91C3BBBDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F45A866C-E0BB-4189-8216-9DC5ADD05413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F45A866C-E0BB-4189-8216-9DC5ADD05413}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F45A866C-E0BB-4189-8216-9DC5ADD05413}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F45A866C-E0BB-4189-8216-9DC5ADD05413}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F625987-1314-4F08-AC75-5045D002A2C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F625987-1314-4F08-AC75-5045D002A2C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F625987-1314-4F08-AC75-5045D002A2C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F625987-1314-4F08-AC75-5045D002A2C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{527E86DA-AFAA-4633-9DF9-F3901E5F338C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{527E86DA-AFAA-4633-9DF9-F3901E5F338C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{527E86DA-AFAA-4633-9DF9-F3901E5F338C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{527E86DA-AFAA-4633-9DF9-F3901E5F338C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
