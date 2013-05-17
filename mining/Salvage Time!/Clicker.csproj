@@ -7,7 +7,7 @@
     <ProjectGuid>{3C491C39-D686-451C-95F8-35C91C3BBBDF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Clickers</RootNamespace>
+    <RootNamespace>Clicker</RootNamespace>
     <AssemblyName>Salvage Time!</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -63,9 +63,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clicker.cs" />
+    <Compile Include="Helpers\Clicker.cs" />
     <Compile Include="Actions.cs" />
-    <Compile Include="ImageWorker.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Helpers\Helper.cs" />
+    <Compile Include="Helpers\ImageWorker.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,6 +76,7 @@
     </Compile>
     <Compile Include="Programm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Helpers\Rectangle.cs" />
     <Compile Include="StateChecker.cs" />
   </ItemGroup>
   <ItemGroup>

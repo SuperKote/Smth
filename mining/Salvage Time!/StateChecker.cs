@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Clicker.Helpers;
 
-namespace Clickers
+namespace Clicker
 {
     public class StateChecker
     {

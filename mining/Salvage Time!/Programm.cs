@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Clickers
+namespace Clicker
 {
     class Programm
     {
@@ -8,7 +8,5 @@ namespace Clickers
         {
            Application.Run(new MainForm());
         }
-
-        
     }
 }

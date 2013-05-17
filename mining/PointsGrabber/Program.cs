@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
+using Clicker;
+using Clicker.Helpers;
+
 namespace PointsGrabber
 {
     [Serializable]
@@ -21,7 +23,7 @@ namespace PointsGrabber
             var p = new Container();
             var pointsDescription = new[]
                 {
-                    "FirstTraget",
+                    "FirstTarget",
                     "LockButton",
                     "UndocButton",
                     "BeltBookmark",
@@ -40,14 +42,13 @@ namespace PointsGrabber
             {
                 Console.WriteLine(st);
                 Console.ReadKey();
-                var leftTop = Cursor.Position;
+                var top = Cursor.Position;
                 Console.ReadKey();
-                var currCursPos = Cursor.Position;
-                var size = new Size(currCursPos.X-leftTop.X,currCursPos.Y-leftTop.Y);
-                p.Rectangles.Add(st,new Rectangle(leftTop,size));
+                var bot = Cursor.Position;
+                p.Rectangles.Add(st,new Rectangle(top,bot));
             }
             IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream("Points.bin", FileMode.Create, FileAccess.Write, FileShare.None);
+            Stream stream = new FileStream("Objects/Areas.bin", FileMode.Create, FileAccess.Write, FileShare.None);
             formatter.Serialize(stream, p);
             stream.Close();
         }

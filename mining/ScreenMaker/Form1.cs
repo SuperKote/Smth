@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Clickers;
+using Clicker;
+using Clicker.Helpers;
 
 namespace ScreenMaker
 {

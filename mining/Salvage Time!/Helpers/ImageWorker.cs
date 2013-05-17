@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Threading;
 
-namespace Clickers
+namespace Clicker.Helpers
 {
     public class ImageWorker
     {

@@ -1,4 +1,4 @@
-﻿namespace Clickers
+﻿namespace Clicker
 {
     partial class MainForm
     {
@@ -35,10 +35,10 @@
             this.QuitCheck = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.LRoundLeft = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.StopButton2 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.LRoundLeft = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -119,6 +119,24 @@
             this.tabPage1.Text = "Start";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // LRoundLeft
+            // 
+            this.LRoundLeft.AutoSize = true;
+            this.LRoundLeft.Location = new System.Drawing.Point(4, 46);
+            this.LRoundLeft.Name = "LRoundLeft";
+            this.LRoundLeft.Size = new System.Drawing.Size(95, 13);
+            this.LRoundLeft.TabIndex = 6;
+            this.LRoundLeft.Text = "Циклов осталось";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 7);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(105, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Количество циклов";
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.StopButton2);
@@ -141,24 +159,6 @@
             this.StopButton2.UseVisualStyleBackColor = true;
             this.StopButton2.Click += new System.EventHandler(this.StopButton2_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 7);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(105, 13);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Количество циклов";
-            // 
-            // LRoundLeft
-            // 
-            this.LRoundLeft.AutoSize = true;
-            this.LRoundLeft.Location = new System.Drawing.Point(4, 46);
-            this.LRoundLeft.Name = "LRoundLeft";
-            this.LRoundLeft.Size = new System.Drawing.Size(95, 13);
-            this.LRoundLeft.TabIndex = 6;
-            this.LRoundLeft.Text = "Циклов осталось";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -166,7 +166,7 @@
             this.ClientSize = new System.Drawing.Size(315, 189);
             this.Controls.Add(this.tabControl1);
             this.Name = "MainForm";
-            this.Text = "MainForm";
+            this.Text = "Miner";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();

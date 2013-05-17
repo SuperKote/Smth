@@ -3,24 +3,15 @@ using System.Linq;
 using System.Threading;
 using System.Drawing;
 using System;
-using System.IO;
-using System.Windows.Forms;
+using Clicker.Helpers;
+using Rectangle = Clicker.Helpers.Rectangle;
 
-namespace Clickers
+namespace Clicker
 {
     class Actions
     {
-        public const int TractorWorkTime = 20;
-        public const int LockTime = 3;
-        public const int Delay = 1;
-        public const int MiningLaserCycleTime = 150;
-        public const int WarpTime = 90;
-        public const int DockTime = 20;
-        public const int UndockTime = 20;
-        public delegate void Action();
-
-        private readonly Clicker _clicker;
-        private readonly Dictionary<string, int[]> _points;
+        private readonly Helpers.Clicker _clicker;
+        private readonly Dictionary<Constants.Points, Rectangle> _points;
         private readonly Dictionary<string, Bitmap> _asteroids;
         private readonly Dictionary<string, Bitmap> _images;
         private readonly Dictionary<string, Bitmap> _crystalImages; 
@@ -29,55 +20,53 @@ namespace Clickers
 
         public Actions()
         {
-            _clicker = new Clicker();
-
-            var minerPoints = new Dictionary<string, int[]>
+            _clicker = new Helpers.Clicker();
+            
+            var minerPoints = new Dictionary<Constants.Points, int[]>
                 {
-                    {"FirstTraget", new []{1036,222,1249,232}},
-                    {"LockButton", new []{1167,87,1192,112}},
-                    {"UndocButton", new []{4,651,28,671}},
-                    {"BeltBookmark", new []{81,304,237,314}},
-                    {"StationBookmark", new []{82,323,237,335}},
-                    {"LeftTopItemInCargo", new []{52,101,113,162}},
-                    {"StationHangar", new []{545,100,605,161}},
-                    {"MiddlePositionInOverview", new[]{1050,496,1150,547}},
-                    {"SaveBookmark", new[]{602,460,647,472}},
-                    {"FirstMiningLaser", new[]{730,540,755,565}},
-                    {"SecondMiningLaser",new[]{780,540,805,565}},
-                    {"DeployDronesMenu",new[]{70,49,270,57}},
-                    {"ScopeDronesMenu",new[]{76,67,264,81}},
-                    {"QuitGame", new []{1269,9}}
+                    {Constants.Points.FirstTarget, new []{1036,222,1249,232}},
+                    {Constants.Points.LockButton, new []{1167,87,1192,112}},
+                    {Constants.Points.UndocButton, new []{4,651,28,671}},
+                    {Constants.Points.BeltBookmark, new []{81,304,237,314}},
+                    {Constants.Points.StationBookmark, new []{82,323,237,335}},
+                    {Constants.Points.LeftTopItemInCargo, new []{52,101,113,162}},
+                    {Constants.Points.StationHangar, new []{545,100,605,161}},
+                    {Constants.Points.MiddlePositionInOverview, new[]{1050,496,1150,547}},
+                    {Constants.Points.SaveBookmark, new[]{602,460,647,472}},
+                    {Constants.Points.FirstMiningLaser, new[]{730,540,755,565}},
+                    {Constants.Points.SecondMiningLaser,new[]{780,540,805,565}},
+                    {Constants.Points.DeployDronesMenu,new[]{70,49,270,57}},
+                    {Constants.Points.ScopeDronesMenu,new[]{76,67,264,81}},
+                    {Constants.Points.QuitGame, new []{1269,9}}
                 };
 
-            _points = minerPoints;
-            _asteroids = ReadImages("AsteroidImages");
-            _images = ReadImages("Images");
-            _crystalImages = ReadImages("Crystals");
-            _laserImages = ReadImages("Lasers");
+            _points = Helper.ReadAreas("Objects");
+            _asteroids = Helper.ReadImages("AsteroidImages");
+            _images = Helper.ReadImages("Images");
+            _crystalImages = Helper.ReadImages("Crystals");
+            _laserImages = Helper.ReadImages("Lasers");
             _stateChecker = new StateChecker(_images,_laserImages);
         }
 
         public void QuitGame()
         {
-            _clicker.DoLeftMouseClick(new Point(_points["QuitGame"][0], _points["QuitGame"][1]));
+            _clicker.DoLeftMouseClick(_points[Constants.Points.QuitGame].Top);
         }
 
         public void DeployDrones()
         {
-            OpenMenuAndClick("DeployDronesMenu", 0);
+            _clicker.OpenMenuAndClick(_points[Constants.Points.DeployDronesMenu], 0);
         }
 
         public void ScopeDrones()
         {
-            OpenMenuAndClick("ScopeDronesMenu", 2);
+            _clicker.OpenMenuAndClick(_points[Constants.Points.ScopeDronesMenu], 2);
         }
 
         public void Undock()
         {
-            var rnd = new Random();
-            _clicker.DoLeftMouseClick(new Point(rnd.Next(_points["UndocButton"][0], _points["UndocButton"][2]),
-                                                rnd.Next(_points["UndocButton"][1], _points["UndocButton"][3])));
-            Thread.Sleep(TimeSpan.FromSeconds(UndockTime));
+            _clicker.RandomLeftClickOnArea(_points[Constants.Points.UndocButton]);
+            Thread.Sleep(TimeSpan.FromSeconds(Constants.UndockTime));
         }
 
         public void InitialCLick()
@@ -87,12 +76,8 @@ namespace Clickers
 
         public void ChooseTraget(int number)
         {
-            var rnd = new Random();
-            _clicker.DoLeftMouseClick(
-                new Point(
-                    rnd.Next(_points[_points.Keys.ToArray()[number]][0], _points[_points.Keys.ToArray()[number]][2]),
-                    rnd.Next(_points[_points.Keys.ToArray()[number]][1], _points[_points.Keys.ToArray()[number]][3])));
-            Thread.Sleep(TimeSpan.FromSeconds(Delay));
+            _clicker.RandomLeftClickOnArea(_points[Constants.Points.FirstTarget]);
+            Thread.Sleep(TimeSpan.FromSeconds(Constants.Delay));
         }
 
         public bool PerformMiningCycle()
@@ -109,7 +94,7 @@ namespace Clickers
                     Thread.Sleep(TimeSpan.FromSeconds(5));
                 ActivateMiningLasers();
                 //Подождем чтобы накопилась полоска на лазере
-                Thread.Sleep(TimeSpan.FromSeconds(MiningLaserCycleTime/2));
+                Thread.Sleep(TimeSpan.FromSeconds(Constants.MiningLaserCycleTime/2));
                 if (!_stateChecker.HaveEnoughShield())
                 {
                     SubstituteAsteroidBookmark();
@@ -125,18 +110,15 @@ namespace Clickers
 
         public void LockTarget(int number)
         {
-            var rnd = new Random();
             ChooseTraget(number);
-            var clickPoint = new Point(rnd.Next(_points["LockButton"][0], _points["LockButton"][2]),
-                                       rnd.Next(_points["LockButton"][1], _points["LockButton"][3]));
-            _clicker.DoLeftMouseClick(clickPoint);
-            Thread.Sleep(TimeSpan.FromSeconds(LockTime));
+            _clicker.RandomLeftClickOnArea(_points[Constants.Points.LockButton]);
+            Thread.Sleep(TimeSpan.FromSeconds(Constants.LockTime));
         }
 
         public void WarpToBookmark()
         {
             const int sleepTime = 40;
-            OpenMenuAndClick("BeltBookmark", 0);
+            _clicker.OpenMenuAndClick(_points[Constants.Points.BeltBookmark], 0);
             Thread.Sleep(TimeSpan.FromSeconds(sleepTime));
             var flag = false;
             for (var i = 0; i < 3; i++)
@@ -154,22 +136,17 @@ namespace Clickers
 
         public void DockToStation()
         {
-            OpenMenuAndClick("StationBookmark", 3);
+            _clicker.OpenMenuAndClick(_points[Constants.Points.StationBookmark], 3);
             WaitForWarp();
-            Thread.Sleep(TimeSpan.FromSeconds(DockTime));
+            Thread.Sleep(TimeSpan.FromSeconds(Constants.DockTime));
             
         }
-        
+
         public void UnloadCargo()
         {
-            OpenMenuAndClick("LeftTopItemInCargo", 6);
-            var rnd = new Random();
-            var firstClickPoint = new Point(
-                rnd.Next(_points["LeftTopItemInCargo"][0], _points["LeftTopItemInCargo"][2]),
-                rnd.Next(_points["LeftTopItemInCargo"][1], _points["LeftTopItemInCargo"][3]));
-            var secondClickPoint = new Point(
-                rnd.Next(_points["StationHangar"][0], _points["StationHangar"][2]),
-                rnd.Next(_points["StationHangar"][1], _points["StationHangar"][3]));
+            _clicker.OpenMenuAndClick(_points[Constants.Points.LeftTopItemInCargo], 6);
+            var firstClickPoint = _clicker.GetRandomPointFromArea(_points[Constants.Points.LeftTopItemInCargo]);
+            var secondClickPoint = _clicker.GetRandomPointFromArea(_points[Constants.Points.StationHangar]);
             _clicker.DragAndDrop(firstClickPoint, secondClickPoint);
         }
 
@@ -181,24 +158,7 @@ namespace Clickers
 
         private static void WaitForWarp(int diff = 0)
         {
-            Thread.Sleep(TimeSpan.FromSeconds(WarpTime + diff));
-            //   while (ImageWorker.AreBitmapsSameEquals(ImageWorker.GetBmp(new Point(608, 637), new Point(612, 642)),
-            //                                        _images["WarpImage"]))
-            //  Thread.Sleep(TimeSpan.FromSeconds(5));
-            // Thread.Sleep(TimeSpan.FromSeconds(2));
-        }
-
-        private static Dictionary<string, Bitmap> ReadImages(string folder)
-        {
-            var result = new Dictionary<string, Bitmap>();
-            var images = Directory.GetFiles(Application.StartupPath + "/" + folder);
-            foreach (var image in images)
-            {
-                var lastSlashIndex = image.LastIndexOf('\\');
-                result.Add(image.Substring(lastSlashIndex + 1, image.Length - (lastSlashIndex + 5)), new Bitmap(image));
-            }
-
-            return result;
+            Thread.Sleep(TimeSpan.FromSeconds(Constants.WarpTime + diff));
         }
 
         private void DeactivateMiningLasers()
@@ -217,8 +177,8 @@ namespace Clickers
         private void ReloadMinigCrystals(string asteroidType)
         {
             if (asteroidType == "empty") return;
-            var flp = new Point(_points["FirstMiningLaser"][0]+10, _points["FirstMiningLaser"][1]+10);
-            var slp = new Point(_points["SecondMiningLaser"][0]+10, _points["SecondMiningLaser"][1]+10);
+            var flp = new Point(_points[Constants.Points.FirstMiningLaser].Top.X+10, _points[Constants.Points.FirstMiningLaser].Top.Y+10);
+            var slp = new Point(_points[Constants.Points.SecondMiningLaser].Bot.X+10, _points[Constants.Points.SecondMiningLaser].Bot.Y+10);
             _clicker.DoRightMouseClick(flp);
             var crystals = GetAvailableCrystals(flp);
             var point = new Point();
@@ -268,42 +228,19 @@ namespace Clickers
 
         private void RemoveBookmark()
         {
-            OpenMenuAndClick("BeltBookmark", 7);
+            _clicker.OpenMenuAndClick(_points[Constants.Points.BeltBookmark], 7);
         }
 
         private void AddNewBookmark()
         {
-            var rnd = new Random();
-            OpenMenuAndClick("MiddlePositionInOverview",5);
-            _clicker.DoLeftMouseClick(
-                new Point(rnd.Next(_points["SaveBookmark"][0], _points["SaveBookmark"][2]),
-                          rnd.Next(_points["SaveBookmark"][1], _points["SaveBookmark"][3])));
+            _clicker.OpenMenuAndClick(_points[Constants.Points.MiddlePositionInOverview],5);
+            _clicker.RandomLeftClickOnArea(_points[Constants.Points.MiddlePositionInOverview]);
         }
 
         private void ActivateHighSlot(int number)
         {
             _clicker.PressKey("{F" + (number + 1) + "}");
         }
-
-        //Todo возможно стоит перенести в кликер
-        /// <summary>
-        /// Кликает по заданному обьекту, октрывая меню и выбирает нужный пункт.
-        /// </summary>
-        /// <param name="objectName">Имя обьекта для которого нужно вызвать меню.</param>
-        /// <param name="choise">Номер нужного пункта меню.</param>
-        private void OpenMenuAndClick(string objectName, int choise)
-        {
-            var rnd = new Random();
-            //Выбрать случайную точку для клика по обьекту
-            var clickPoint = new Point(rnd.Next(_points[objectName][0], _points[objectName][2]),
-                                       rnd.Next(_points[objectName][1], _points[objectName][3]));
-            _clicker.DoRightMouseClick(clickPoint);
-            //Сместить точку в соответствии с выпадающим меню
-            clickPoint = new Point(clickPoint.X + 30, clickPoint.Y + 5);
-            //Выбрать случайную точку для клика по нужному пункту меню
-            clickPoint = new Point(rnd.Next(clickPoint.X, clickPoint.X + 50),
-                                   rnd.Next(clickPoint.Y + choise*15, clickPoint.Y + choise *15 + 7));
-            _clicker.DoLeftMouseClick(clickPoint);
-        }
+        
     }
 }

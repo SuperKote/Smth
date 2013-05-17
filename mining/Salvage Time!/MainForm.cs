@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using System.Threading;
 
-namespace Clickers
+namespace Clicker
 {
     public partial class MainForm : Form
     {
