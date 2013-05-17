@@ -66,6 +66,7 @@
     <Compile Include="Helpers\Clicker.cs" />
     <Compile Include="Actions.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Helpers\Exceptions\LowShieldException.cs" />
     <Compile Include="Helpers\Helper.cs" />
     <Compile Include="Helpers\ImageWorker.cs" />
     <Compile Include="MainForm.cs">

@@ -4,6 +4,7 @@ using System.Threading;
 using System.Drawing;
 using System;
 using Clicker.Helpers;
+using Clicker.Helpers.Exceptions;
 using Rectangle = Clicker.Helpers.Rectangle;
 
 namespace Clicker
@@ -14,8 +15,7 @@ namespace Clicker
         private readonly Dictionary<Constants.Points, Rectangle> _points;
         private readonly Dictionary<string, Bitmap> _asteroids;
         private readonly Dictionary<string, Bitmap> _images;
-        private readonly Dictionary<string, Bitmap> _crystalImages; 
-        private readonly Dictionary<string, Bitmap> _laserImages;
+        private readonly Dictionary<string, Bitmap> _crystalImages;
         private readonly StateChecker _stateChecker;
 
         public Actions()
@@ -44,8 +44,7 @@ namespace Clicker
             _asteroids = Helper.ReadImages("AsteroidImages");
             _images = Helper.ReadImages("Images");
             _crystalImages = Helper.ReadImages("Crystals");
-            _laserImages = Helper.ReadImages("Lasers");
-            _stateChecker = new StateChecker(_images,_laserImages);
+            _stateChecker = new StateChecker(_images, Helper.ReadImages("Lasers"));
         }
 
         public void QuitGame()
@@ -80,7 +79,7 @@ namespace Clicker
             Thread.Sleep(TimeSpan.FromSeconds(Constants.Delay));
         }
 
-        public bool PerformMiningCycle()
+        public void PerformMiningCycle()
         {
             while (!_stateChecker.IsCargoFull())
             {
@@ -97,15 +96,11 @@ namespace Clicker
                 Thread.Sleep(TimeSpan.FromSeconds(Constants.MiningLaserCycleTime/2));
                 if (!_stateChecker.HaveEnoughShield())
                 {
-                    SubstituteAsteroidBookmark();
-                    ScopeDrones();
-                    DockToStation();
-                    return false;
+                    throw new LowShieldException();
                 }
                 while (_stateChecker.IsLaserActive(0) && _stateChecker.IsLaserActive(1))
                     Thread.Sleep(TimeSpan.FromSeconds(3));
             }
-            return true;
         }
 
         public void LockTarget(int number)
@@ -177,53 +172,46 @@ namespace Clicker
         private void ReloadMinigCrystals(string asteroidType)
         {
             if (asteroidType == "empty") return;
-            var flp = new Point(_points[Constants.Points.FirstMiningLaser].Top.X+10, _points[Constants.Points.FirstMiningLaser].Top.Y+10);
-            var slp = new Point(_points[Constants.Points.SecondMiningLaser].Bot.X+10, _points[Constants.Points.SecondMiningLaser].Bot.Y+10);
-            _clicker.DoRightMouseClick(flp);
-            var crystals = GetAvailableCrystals(flp);
-            var point = new Point();
-            var flag = true;
+            var point = new Point(_points[Constants.Points.FirstMiningLaser].Top.X+10, _points[Constants.Points.FirstMiningLaser].Top.Y+10);
+            _clicker.DoRightMouseClick(point);
+            var crystals = GetAvailableCrystals(point);
+            int crystalNumber;
             try
             {
-                var crst = _crystalImages.First(z => z.Key == asteroidType).Value;
-                point = crystals.First(z => ImageWorker.AreBitmapsSameEquals(z.Value, crst)).Key;
+                var neededCrystal = _crystalImages.First(z => z.Key == asteroidType).Value;
+                crystalNumber = crystals.First(z => ImageWorker.AreBitmapsSameEquals(z.Value, neededCrystal)).Key;
             }
             catch
             {
-                flag = false;
                 InitialCLick();
+                return;
             }
-            if (!flag) return;
-            _clicker.DoLeftMouseClick(point);
-            _clicker.DoRightMouseClick(slp);
-            _clicker.DoLeftMouseClick(new Point(point.X+75,point.Y));
+            _clicker.OpenMenuAndClick(_points[Constants.Points.FirstMiningLaser], crystalNumber);
+            _clicker.OpenMenuAndClick(_points[Constants.Points.SecondMiningLaser], crystalNumber);
         }
 
-        private static Dictionary<Point,Bitmap> GetAvailableCrystals(Point startPoint)
+        private static Dictionary<int,Bitmap> GetAvailableCrystals(Point startPoint)
         {
-            var avCryst = new Dictionary<Point, Bitmap>();
+            var availableCrystals = new Dictionary<int, Bitmap>();
             for (var i = 0; i < 3; i++)
             {
                 var point = new Point(startPoint.X+15, startPoint.Y + i*15);
-                avCryst.Add(new Point(point.X,point.Y+5), ImageWorker.GetBmp(point,15,50));
+                availableCrystals.Add(i, ImageWorker.GetBmp(point,15,50));
             }
-            return avCryst;
+            return availableCrystals;
         }
 
         private string GetSelectedAsteroidName()
         {
-            string asteroidName;
             try
             {
-                asteroidName =
-                    _asteroids.First(
-                        z =>  ImageWorker.AreBitmapsEquals(new Point(1033, 49), new Point(1055, 76), z.Value)).Key;
+                return _asteroids.First(
+                    z => ImageWorker.AreBitmapsEquals(new Point(1033, 49), new Point(1055, 76), z.Value)).Key;
             }
             catch
             {
                 return "empty";
             }
-            return asteroidName;
         }
 
         private void RemoveBookmark()
@@ -241,6 +229,5 @@ namespace Clicker
         {
             _clicker.PressKey("{F" + (number + 1) + "}");
         }
-        
     }
 }

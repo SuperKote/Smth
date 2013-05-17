@@ -6,6 +6,7 @@ using Clicker.Helpers;
 
 namespace Clicker
 {
+    //Todo Переделать стейтчекер под новые енумы и выпилить магию координат.
     public class StateChecker
     {
         private readonly Dictionary<string, Bitmap> _images;

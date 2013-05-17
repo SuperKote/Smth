@@ -12,6 +12,7 @@ namespace Clicker
         {
             InitializeComponent();
             LRoundLeft.Text = string.Format("Циклов осталось: {0}", TBRoundCount.Text);
+            Validate();
         }      
 
         private void SalvageButton_Click(object sender, EventArgs e)
@@ -37,7 +38,11 @@ namespace Clicker
                 actions.Undock();
                 actions.WarpToBookmark();
                 actions.DeployDrones();
-                if (actions.PerformMiningCycle())
+                try
+                {
+                    actions.PerformMiningCycle();
+                }
+                finally 
                 {
                     actions.SubstituteAsteroidBookmark();
                     actions.ScopeDrones();
@@ -52,6 +57,7 @@ namespace Clicker
         private void DisplayProgress(int i)
         {
             LRoundLeft.Text = string.Format("Циклов осталось: {0}",i);
+            Validate();
         }
 
         private void StopButton_Click(object sender, EventArgs e)
