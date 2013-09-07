@@ -27,5 +27,26 @@
             ScopeDronesMenu,
             QuitGame,
         }
+
+        //todo Можно потом добавить сюда и лед.
+        public enum Asteroids
+        {
+            Veldspar,
+            Scordite,
+            Pyroxeres,
+            Plagioclase,
+            Omber,
+            Kernite,
+            Jaspet,
+            Hemorphite,
+            Hedbergite,
+            Gneiss,
+            DarkOchre,
+            Spodumain,
+            Crokite,
+            Bistot,
+            Arkonor,
+            Mercoxit
+        }
     }
 }
