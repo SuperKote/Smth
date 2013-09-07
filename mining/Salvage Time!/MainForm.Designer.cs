@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.SalvageButton = new System.Windows.Forms.Button();
-            this.MiningButton = new System.Windows.Forms.Button();
-            this.StopButton1 = new System.Windows.Forms.Button();
+            this.ChangeStateButton = new System.Windows.Forms.Button();
             this.TBRoundCount = new System.Windows.Forms.TextBox();
             this.QuitCheck = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -39,6 +39,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.StopButton2 = new System.Windows.Forms.Button();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -54,25 +55,15 @@
             this.SalvageButton.UseVisualStyleBackColor = true;
             this.SalvageButton.Click += new System.EventHandler(this.SalvageButton_Click);
             // 
-            // MiningButton
+            // ChangeStateButton
             // 
-            this.MiningButton.Location = new System.Drawing.Point(7, 135);
-            this.MiningButton.Name = "MiningButton";
-            this.MiningButton.Size = new System.Drawing.Size(75, 23);
-            this.MiningButton.TabIndex = 1;
-            this.MiningButton.Text = "Start";
-            this.MiningButton.UseVisualStyleBackColor = true;
-            this.MiningButton.Click += new System.EventHandler(this.MiningButton_Click);
-            // 
-            // StopButton1
-            // 
-            this.StopButton1.Location = new System.Drawing.Point(223, 135);
-            this.StopButton1.Name = "StopButton1";
-            this.StopButton1.Size = new System.Drawing.Size(75, 23);
-            this.StopButton1.TabIndex = 2;
-            this.StopButton1.Text = "Stop";
-            this.StopButton1.UseVisualStyleBackColor = true;
-            this.StopButton1.Click += new System.EventHandler(this.StopButton_Click);
+            this.ChangeStateButton.Location = new System.Drawing.Point(112, 113);
+            this.ChangeStateButton.Name = "ChangeStateButton";
+            this.ChangeStateButton.Size = new System.Drawing.Size(75, 23);
+            this.ChangeStateButton.TabIndex = 1;
+            this.ChangeStateButton.Text = "Start(F8)";
+            this.ChangeStateButton.UseVisualStyleBackColor = true;
+            this.ChangeStateButton.Click += new System.EventHandler(this.ChangeStateButton_Click);
             // 
             // TBRoundCount
             // 
@@ -107,8 +98,7 @@
             // 
             this.tabPage1.Controls.Add(this.LRoundLeft);
             this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.MiningButton);
-            this.tabPage1.Controls.Add(this.StopButton1);
+            this.tabPage1.Controls.Add(this.ChangeStateButton);
             this.tabPage1.Controls.Add(this.QuitCheck);
             this.tabPage1.Controls.Add(this.TBRoundCount);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -159,6 +149,11 @@
             this.StopButton2.UseVisualStyleBackColor = true;
             this.StopButton2.Click += new System.EventHandler(this.StopButton2_Click);
             // 
+            // timer
+            // 
+            this.timer.Enabled = true;
+            this.timer.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -178,8 +173,7 @@
         #endregion
 
         private System.Windows.Forms.Button SalvageButton;
-        private System.Windows.Forms.Button MiningButton;
-        private System.Windows.Forms.Button StopButton1;
+        private System.Windows.Forms.Button ChangeStateButton;
         private System.Windows.Forms.TextBox TBRoundCount;
         private System.Windows.Forms.CheckBox QuitCheck;
         private System.Windows.Forms.TabControl tabControl1;
@@ -188,5 +182,6 @@
         private System.Windows.Forms.Button StopButton2;
         private System.Windows.Forms.Label LRoundLeft;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Timer timer;
     }
 }
