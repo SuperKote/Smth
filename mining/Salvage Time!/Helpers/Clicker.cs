@@ -69,7 +69,7 @@ namespace Clicker.Helpers
         /// <param name="area">Область.</param>
         public void RandomLeftClickOnArea(Rectangle area)
         {
-            DoLeftMouseClick(GetRandomPointFromArea(area));
+            DoLeftMouseClick(area.GetRandomPoint());
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Clicker.Helpers
         /// <param name="area">Область.</param>
         public void RandomRightClickOnArea(Rectangle area)
         {
-            DoRightMouseClick(GetRandomPointFromArea(area));
+            DoRightMouseClick(area.GetRandomPoint());
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Clicker.Helpers
         public void OpenMenuAndClick(Rectangle area, int choise)
         {
             //Выбрать случайную точку для клика по обьекту
-            var clickPoint = GetRandomPointFromArea(area);
+            var clickPoint = area.GetRandomPoint();
             DoRightMouseClick(clickPoint);
             //Сместить точку в соответствии с выпадающим меню
             clickPoint = new Point(clickPoint.X + 30, clickPoint.Y + 5);
@@ -98,12 +98,6 @@ namespace Clicker.Helpers
             clickPoint = new Point(rnd.Next(clickPoint.X, clickPoint.X + 50),
                                    rnd.Next(clickPoint.Y + choise * 15, clickPoint.Y + choise * 15 + 7));
             DoLeftMouseClick(clickPoint);
-        }
-        
-        public Point GetRandomPointFromArea(Rectangle area)
-        {
-            var rnd = new Random();
-            return new Point(rnd.Next(area.Top.X, area.Bot.X), rnd.Next(area.Top.Y, area.Bot.Y));
         }
     }
 }

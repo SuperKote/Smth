@@ -10,7 +10,7 @@
         public const int DockTime = 20;
         public const int UndockTime = 20;
 
-        public enum Points
+        public enum Areas
         {
             FirstTarget,
             LockButton,

@@ -24,12 +24,12 @@ namespace Clicker.Helpers
             return result;
         }
 
-        public static Dictionary<Constants.Points, Rectangle> ReadAreas(string folder)
+        public static Dictionary<Constants.Areas, Rectangle> ReadAreas(string folder)
         {
             using (Stream stream = new FileStream(folder + "/Areas.bin", FileMode.Open, FileAccess.Read, FileShare.None))
             {
                 IFormatter formatter = new BinaryFormatter();
-                return (Dictionary<Constants.Points, Rectangle>) formatter.Deserialize(stream);
+                return (Dictionary<Constants.Areas, Rectangle>) formatter.Deserialize(stream);
             }
         }
     }
