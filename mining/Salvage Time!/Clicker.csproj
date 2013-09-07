@@ -69,6 +69,7 @@
     <Compile Include="Helpers\Exceptions\LowShieldException.cs" />
     <Compile Include="Helpers\Helper.cs" />
     <Compile Include="Helpers\ImageWorker.cs" />
+    <Compile Include="Helpers\KeyBoard.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

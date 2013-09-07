@@ -6,7 +6,7 @@ namespace Clicker
     {
         static void Main()
         {
-           Application.Run(new MainForm());
+           Helpers.KeyBoard.Initialize(new MainForm());
         }
     }
 }

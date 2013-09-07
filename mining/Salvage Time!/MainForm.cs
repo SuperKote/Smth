@@ -7,22 +7,32 @@ namespace Clicker
     public partial class MainForm : Form
     {
         private Thread _thread;
-
+        
         public MainForm()
         {
             InitializeComponent();
             LRoundLeft.Text = string.Format("Циклов осталось: {0}", TBRoundCount.Text);
             Validate();
+            timer.Enabled = true;
         }      
 
         private void SalvageButton_Click(object sender, EventArgs e)
         {
         }
-        
-        private void MiningButton_Click(object sender, EventArgs e)
+
+        private void ChangeStateButton_Click(object sender, EventArgs e)
         {
-            _thread = new Thread(Mining) {IsBackground = false};
-            _thread.Start(); 
+            if (ChangeStateButton.Text == "Start(F8)")
+            {
+                ChangeStateButton.Text = "Stop(F8)";
+                _thread = new Thread(Mining) {IsBackground = false};
+                _thread.Start();
+            }
+            else
+            {
+                ChangeStateButton.Text = "Start(F8)";
+                _thread.Abort();
+            }
         }
 
         private void Mining()
@@ -60,16 +70,19 @@ namespace Clicker
             Validate();
         }
 
-        private void StopButton_Click(object sender, EventArgs e)
-        {
-            _thread.Abort();            
-            Application.Exit();
-        }
-
         private void StopButton2_Click(object sender, EventArgs e)
         {
             _thread.Abort();
             Application.Exit();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (Keys.F8.Equals(Helpers.KeyBoard.CurrentKey))
+            {
+                ChangeStateButton.PerformClick();
+                Helpers.KeyBoard.ResetCurrentKey();
+            }
         }
     }
 }
