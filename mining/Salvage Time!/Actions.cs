@@ -12,7 +12,7 @@ namespace Clicker
     class Actions
     {
         private readonly Helpers.Clicker _clicker;
-        private readonly Dictionary<Constants.Points, Rectangle> _points;
+        private readonly Dictionary<Constants.Areas, Rectangle> _areas;
         private readonly Dictionary<string, Bitmap> _asteroids;
         private readonly Dictionary<string, Bitmap> _images;
         private readonly Dictionary<string, Bitmap> _crystalImages;
@@ -22,25 +22,25 @@ namespace Clicker
         {
             _clicker = new Helpers.Clicker();
             
-            var minerPoints = new Dictionary<Constants.Points, int[]>
+            var minerPoints = new Dictionary<Constants.Areas, int[]>
                 {
-                    {Constants.Points.FirstTarget, new []{1036,222,1249,232}},
-                    {Constants.Points.LockButton, new []{1167,87,1192,112}},
-                    {Constants.Points.UndocButton, new []{4,651,28,671}},
-                    {Constants.Points.BeltBookmark, new []{81,304,237,314}},
-                    {Constants.Points.StationBookmark, new []{82,323,237,335}},
-                    {Constants.Points.LeftTopItemInCargo, new []{52,101,113,162}},
-                    {Constants.Points.StationHangar, new []{545,100,605,161}},
-                    {Constants.Points.MiddlePositionInOverview, new[]{1050,496,1150,547}},
-                    {Constants.Points.SaveBookmark, new[]{602,460,647,472}},
-                    {Constants.Points.FirstMiningLaser, new[]{730,540,755,565}},
-                    {Constants.Points.SecondMiningLaser,new[]{780,540,805,565}},
-                    {Constants.Points.DeployDronesMenu,new[]{70,49,270,57}},
-                    {Constants.Points.ScopeDronesMenu,new[]{76,67,264,81}},
-                    {Constants.Points.QuitGame, new []{1269,9}}
+                    {Constants.Areas.FirstTarget, new []{1036,222,1249,232}},
+                    {Constants.Areas.LockButton, new []{1167,87,1192,112}},
+                    {Constants.Areas.UndocButton, new []{4,651,28,671}},
+                    {Constants.Areas.BeltBookmark, new []{81,304,237,314}},
+                    {Constants.Areas.StationBookmark, new []{82,323,237,335}},
+                    {Constants.Areas.LeftTopItemInCargo, new []{52,101,113,162}},
+                    {Constants.Areas.StationHangar, new []{545,100,605,161}},
+                    {Constants.Areas.MiddlePositionInOverview, new[]{1050,496,1150,547}},
+                    {Constants.Areas.SaveBookmark, new[]{602,460,647,472}},
+                    {Constants.Areas.FirstMiningLaser, new[]{730,540,755,565}},
+                    {Constants.Areas.SecondMiningLaser,new[]{780,540,805,565}},
+                    {Constants.Areas.DeployDronesMenu,new[]{70,49,270,57}},
+                    {Constants.Areas.ScopeDronesMenu,new[]{76,67,264,81}},
+                    {Constants.Areas.QuitGame, new []{1269,9}}
                 };
 
-            _points = Helper.ReadAreas("Objects");
+            _areas = Helper.ReadAreas("Objects");
             _asteroids = Helper.ReadImages("AsteroidImages");
             _images = Helper.ReadImages("Images");
             _crystalImages = Helper.ReadImages("Crystals");
@@ -49,22 +49,22 @@ namespace Clicker
 
         public void QuitGame()
         {
-            _clicker.DoLeftMouseClick(_points[Constants.Points.QuitGame].Top);
+            _clicker.DoLeftMouseClick(_areas[Constants.Areas.QuitGame].Top);
         }
 
         public void DeployDrones()
         {
-            _clicker.OpenMenuAndClick(_points[Constants.Points.DeployDronesMenu], 0);
+            _clicker.OpenMenuAndClick(_areas[Constants.Areas.DeployDronesMenu], 0);
         }
 
         public void ScopeDrones()
         {
-            _clicker.OpenMenuAndClick(_points[Constants.Points.ScopeDronesMenu], 2);
+            _clicker.OpenMenuAndClick(_areas[Constants.Areas.ScopeDronesMenu], 2);
         }
 
         public void Undock()
         {
-            _clicker.RandomLeftClickOnArea(_points[Constants.Points.UndocButton]);
+            _clicker.RandomLeftClickOnArea(_areas[Constants.Areas.UndocButton]);
             Thread.Sleep(TimeSpan.FromSeconds(Constants.UndockTime));
         }
 
@@ -75,7 +75,7 @@ namespace Clicker
 
         public void ChooseTraget(int number)
         {
-            _clicker.RandomLeftClickOnArea(_points[Constants.Points.FirstTarget]);
+            _clicker.RandomLeftClickOnArea(_areas[Constants.Areas.FirstTarget]);
             Thread.Sleep(TimeSpan.FromSeconds(Constants.Delay));
         }
 
@@ -106,14 +106,14 @@ namespace Clicker
         public void LockTarget(int number)
         {
             ChooseTraget(number);
-            _clicker.RandomLeftClickOnArea(_points[Constants.Points.LockButton]);
+            _clicker.RandomLeftClickOnArea(_areas[Constants.Areas.LockButton]);
             Thread.Sleep(TimeSpan.FromSeconds(Constants.LockTime));
         }
 
         public void WarpToBookmark()
         {
             const int sleepTime = 40;
-            _clicker.OpenMenuAndClick(_points[Constants.Points.BeltBookmark], 0);
+            _clicker.OpenMenuAndClick(_areas[Constants.Areas.BeltBookmark], 0);
             Thread.Sleep(TimeSpan.FromSeconds(sleepTime));
             var flag = false;
             for (var i = 0; i < 3; i++)
@@ -131,7 +131,7 @@ namespace Clicker
 
         public void DockToStation()
         {
-            _clicker.OpenMenuAndClick(_points[Constants.Points.StationBookmark], 3);
+            _clicker.OpenMenuAndClick(_areas[Constants.Areas.StationBookmark], 3);
             WaitForWarp();
             Thread.Sleep(TimeSpan.FromSeconds(Constants.DockTime));
             
@@ -139,9 +139,9 @@ namespace Clicker
 
         public void UnloadCargo()
         {
-            _clicker.OpenMenuAndClick(_points[Constants.Points.LeftTopItemInCargo], 6);
-            var firstClickPoint = _clicker.GetRandomPointFromArea(_points[Constants.Points.LeftTopItemInCargo]);
-            var secondClickPoint = _clicker.GetRandomPointFromArea(_points[Constants.Points.StationHangar]);
+            _clicker.OpenMenuAndClick(_areas[Constants.Areas.LeftTopItemInCargo], 6);
+            var firstClickPoint = _areas[Constants.Areas.LeftTopItemInCargo].GetRandomPoint();
+            var secondClickPoint = _areas[Constants.Areas.StationHangar].GetRandomPoint();
             _clicker.DragAndDrop(firstClickPoint, secondClickPoint);
         }
 
@@ -172,7 +172,7 @@ namespace Clicker
         private void ReloadMinigCrystals(string asteroidType)
         {
             if (asteroidType == "empty") return;
-            var point = new Point(_points[Constants.Points.FirstMiningLaser].Top.X+10, _points[Constants.Points.FirstMiningLaser].Top.Y+10);
+            var point = new Point(_areas[Constants.Areas.FirstMiningLaser].Top.X+10, _areas[Constants.Areas.FirstMiningLaser].Top.Y+10);
             _clicker.DoRightMouseClick(point);
             var crystals = GetAvailableCrystals(point);
             int crystalNumber;
@@ -186,8 +186,8 @@ namespace Clicker
                 InitialCLick();
                 return;
             }
-            _clicker.OpenMenuAndClick(_points[Constants.Points.FirstMiningLaser], crystalNumber);
-            _clicker.OpenMenuAndClick(_points[Constants.Points.SecondMiningLaser], crystalNumber);
+            _clicker.OpenMenuAndClick(_areas[Constants.Areas.FirstMiningLaser], crystalNumber);
+            _clicker.OpenMenuAndClick(_areas[Constants.Areas.SecondMiningLaser], crystalNumber);
         }
 
         private static Dictionary<int,Bitmap> GetAvailableCrystals(Point startPoint)
@@ -216,13 +216,13 @@ namespace Clicker
 
         private void RemoveBookmark()
         {
-            _clicker.OpenMenuAndClick(_points[Constants.Points.BeltBookmark], 7);
+            _clicker.OpenMenuAndClick(_areas[Constants.Areas.BeltBookmark], 7);
         }
 
         private void AddNewBookmark()
         {
-            _clicker.OpenMenuAndClick(_points[Constants.Points.MiddlePositionInOverview],5);
-            _clicker.RandomLeftClickOnArea(_points[Constants.Points.MiddlePositionInOverview]);
+            _clicker.OpenMenuAndClick(_areas[Constants.Areas.MiddlePositionInOverview],5);
+            _clicker.RandomLeftClickOnArea(_areas[Constants.Areas.MiddlePositionInOverview]);
         }
 
         private void ActivateHighSlot(int number)

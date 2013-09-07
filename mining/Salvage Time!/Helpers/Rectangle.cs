@@ -34,5 +34,15 @@ namespace Clicker.Helpers
         {
             get { return Bot.X - Top.X; }
         }
+
+        /// <summary>
+        /// Возвращает случайную точку из прямоугольника.
+        /// </summary>
+        /// <returns></returns>
+        public Point GetRandomPoint()
+        {
+            var rnd = new Random();
+            return new Point(rnd.Next(Top.X, Bot.X), rnd.Next(Top.Y, Bot.Y));
+        }
     }
 }
