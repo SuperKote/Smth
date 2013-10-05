@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
@@ -26,6 +27,17 @@ namespace Clicker.Helpers
             UnhookWindowsHookEx(_hookID);
         }
 
+        public static void PressKey(int key)
+        {
+            Process[] processes = Process.GetProcessesByName("iexplore");
+
+            foreach (Process proc in processes)
+            {
+                PostMessage(proc.MainWindowHandle, WM_KEYDOWN, key, 0);
+                PostMessage(proc.MainWindowHandle, WM_KEYUP, key, 0);
+            }
+        }
+
         private static IntPtr SetHook(LowLevelKeyboardProc proc)
         {
             using (Process curProcess = Process.GetCurrentProcess())
@@ -47,6 +59,7 @@ namespace Clicker.Helpers
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
 
+        # region импорты/констынты для хука
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
         private static LowLevelKeyboardProc _proc = HookCallback;
@@ -69,5 +82,12 @@ namespace Clicker.Helpers
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr GetModuleHandle(string lpModuleName);
+        #endregion
+
+        #region импорты/константы для нажатий
+        private const int WM_KEYUP = 0x0101;
+        [DllImport("user32.dll")]
+        static extern bool PostMessage(IntPtr hWnd, UInt32 Msg, int wParam, int lParam);
+        #endregion
     }
 }
